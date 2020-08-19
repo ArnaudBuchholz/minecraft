@@ -1,5 +1,7 @@
 'use strict'
 
+const user = 'Abubuhh' // Could be loaded from env variable
+
 async function rcon (cmd) {
   const response = await fetch('/rcon', {
     method: 'post',
@@ -14,10 +16,43 @@ async function rcon (cmd) {
   return response.text()
 }
 
+function setBlock(x, y, z, type) {
+  return rcon(`setblock ${x} ${y} ${z} minecraft:${type}`)
+}
+
+const buildings = {
+  'pillar': async function (x, y, z) {
+    for (let h = -1; h < 5; ++h) {
+      await setBlock(x, y + h, z, 'chiseled_polished_blackstone')
+    }
+    await setBlock(x, y + 5, z, 'soul_campfire[lit=true]')
+    await setBlock(x + 1, y + 4, z, 'polished_blackstone_brick_wall')
+    await setBlock(x + 1, y + 3, z, 'soul_lantern[hanging=true]')
+    await setBlock(x - 1, y + 4, z, 'polished_blackstone_brick_wall')
+    await setBlock(x - 1, y + 3, z, 'soul_lantern[hanging=true]')
+    await setBlock(x, y + 4, z + 1, 'polished_blackstone_brick_wall')
+    await setBlock(x, y + 3, z + 1, 'soul_lantern[hanging=true]')
+    await setBlock(x, y + 4, z - 1, 'polished_blackstone_brick_wall')
+    await setBlock(x, y + 3, z - 1, 'soul_lantern[hanging=true]')
+  }
+}
+
+
 document.addEventListener('click', event => {
   const { target } = event
-  if (target.tagName === 'BUTTON' && target.dataset.cmd) {
-    rcon(target.dataset.cmd.toString()).then(console.log)
+  if (target.tagName === 'BUTTON') {
+    if (target.dataset.cmd) {
+      rcon(target.dataset.cmd.replace(/\$\{user\}/g, user)).then(console.log)
+    } else if (target.dataset.building) {
+      rcon(`execute at ${user} run teleport ${user} ~ ~ ~`)
+        .then(output => {
+          const coords = /(-?\d+)\.\d+, (-?\d+)\.\d+, (-?\d+)\.\d+/.exec(output)
+          const x = parseInt(coords[1], 10)
+          const y = parseInt(coords[2], 10)
+          const z = parseInt(coords[3], 10)
+          buildings[target.dataset.building](x, y, z)
+        })
+    }
   }
 })
 
@@ -44,10 +79,8 @@ const shortcuts = {
 
 Object.keys(shortcuts).forEach(label => {
   const button = document.createElement('button')
-  button.dataset.cmd = `teleport Abubuhh ${shortcuts[label]}`
+  button.dataset.cmd = `teleport ${user} ${shortcuts[label]}`
   button.appendChild(document.createTextNode(label))
   document.getElementById('shortcuts').appendChild(button)
   document.getElementById('shortcuts').appendChild(document.createTextNode('\n'))
 })
-
-

@@ -8,13 +8,17 @@
     <button data-cmd="execute at @e[type=creeper] run summon minecraft:lightning_bolt">Punish creepers</button>
 
     <button data-cmd="list">users</button>
-    <button data-cmd="execute at Abubuhh run teleport Abubuhh ~ ~ ~">position</button>
+    <button data-cmd="execute at ${user} run teleport ${user} ~ ~ ~">position</button>
 
-    <button data-cmd="execute at Abubuhh run setblock ~ ~ ~ minecraft:command_block">spawn command block</button>
+    <button data-cmd="execute at ${user} run setblock ~ ~ ~ minecraft:command_block">spawn command block</button>
 
     <hr />
     <div id="shortcuts">
     </div>
+
+    <hr />
+
+    <button data-building="pillar">pillar</button>
     <script src="index.js"></script>
   </body>
 </html>
