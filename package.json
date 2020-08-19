@@ -4,7 +4,8 @@
   "description": "Minecraft scripts and experiments",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "reserve"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   "dependencies": {
     "colors": "^1.4.0",
     "dotenv": "^8.2.0",
-    "modern-rcon": "^1.0.3"
+    "modern-rcon": "^1.0.3",
+    "reserve": "^1.8.2"
   }
 }
