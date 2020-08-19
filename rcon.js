@@ -11,7 +11,6 @@ const body = require('reserve/body')
 
 module.exports = async (request, response) => {
   const cmd = await body(request)
-console.log(cmd)
   const rcon = new Rcon(host, port, password)
   return rcon.connect()
     .then(() => rcon.send(cmd))
