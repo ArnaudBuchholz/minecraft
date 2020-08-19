@@ -1,0 +1,11 @@
+{
+    "port": 8080,
+    "mappings": [{
+      "verb": "POST",
+      "match": "^/rcon",
+      "custom": "./rcon.js"
+    }, {
+      "match": "^/(.*)",
+      "file": "./www/$1"
+    }]
+  }
