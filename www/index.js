@@ -1,10 +1,24 @@
 'use strict'
 
-const user = 'Abubuhh' // Could be loaded from env variable
+let user
+const byId = document.getElementById.bind(document)
+
+async function data (path) {
+  const response = await fetch(`/data/${path}`, {
+    method: 'GET'
+  })
+  if (!response.ok) {
+    throw response.statusText
+  }
+  if (path.endsWith('.json')) {
+    return response.json()
+  }
+  return response.text()
+}
 
 async function rcon (cmd) {
   const response = await fetch('/rcon', {
-    method: 'post',
+    method: 'POST',
     headers: {
       'content-type': 'text/plain'
     },
@@ -16,71 +30,82 @@ async function rcon (cmd) {
   return response.text()
 }
 
+function xyz () {
+  const coords = byId('xyz').value.split(' ')
+  if (coords.length) {
+    return {
+      x: parseInt(coords[0], 10),
+      y: parseInt(coords[1], 10),
+      z: parseInt(coords[2], 10)
+    }
+  }
+}
+
 function setBlock(x, y, z, type) {
   return rcon(`setblock ${x} ${y} ${z} minecraft:${type}`)
 }
 
-const buildings = {
-  'pillar': async function (x, y, z) {
-    for (let h = -1; h < 5; ++h) {
-      await setBlock(x, y + h, z, 'chiseled_polished_blackstone')
+const actions = {
+  position: async () => {
+    const output = await rcon(`execute at ${user} run teleport ${user} ~ ~ ~`)
+    if (!output) {
+      byId('xyz').value = ''
+      return
     }
-    await setBlock(x, y + 5, z, 'soul_campfire[lit=true]')
-    await setBlock(x + 1, y + 4, z, 'polished_blackstone_brick_wall')
-    await setBlock(x + 1, y + 3, z, 'soul_lantern[hanging=true]')
-    await setBlock(x - 1, y + 4, z, 'polished_blackstone_brick_wall')
-    await setBlock(x - 1, y + 3, z, 'soul_lantern[hanging=true]')
-    await setBlock(x, y + 4, z + 1, 'polished_blackstone_brick_wall')
-    await setBlock(x, y + 3, z + 1, 'soul_lantern[hanging=true]')
-    await setBlock(x, y + 4, z - 1, 'polished_blackstone_brick_wall')
-    await setBlock(x, y + 3, z - 1, 'soul_lantern[hanging=true]')
+    const coords = /(-?\d+)\.\d+, (-?\d+)\.\d+, (-?\d+)\.\d+/.exec(output)
+    const x = parseInt(coords[1], 10)
+    const y = parseInt(coords[2], 10)
+    const z = parseInt(coords[3], 10)
+    byId('xyz').value = `${x} ${y} ${z}`
+  },
+
+  teleport: () => {
+    const {x, y, z} = xyz()
+    if (x !== undefined) {
+      rcon(`teleport ${user} ${x} ${y} ${z}`)
+    }
+  },
+
+  building: async () => {
+    const { x, y, z } = xyz()
   }
 }
-
 
 document.addEventListener('click', event => {
   const { target } = event
   if (target.tagName === 'BUTTON') {
-    if (target.dataset.cmd) {
+    if (target.dataset.action) {
+      actions[target.dataset.action]()
+    } else if (target.dataset.cmd) {
       rcon(target.dataset.cmd.replace(/\$\{user\}/g, user)).then(console.log)
-    } else if (target.dataset.building) {
-      rcon(`execute at ${user} run teleport ${user} ~ ~ ~`)
-        .then(output => {
-          const coords = /(-?\d+)\.\d+, (-?\d+)\.\d+, (-?\d+)\.\d+/.exec(output)
-          const x = parseInt(coords[1], 10)
-          const y = parseInt(coords[2], 10)
-          const z = parseInt(coords[3], 10)
-          buildings[target.dataset.building](x, y, z)
-        })
     }
   }
 })
 
-const shortcuts = {
-  Home: '79 200 -56',
-  Maxime: '-22 68 -210',
-
-  'Portal to Nether fortress': '6267 71 -1489',
-
-  'Shelter 1': '-159 73 -238',
-  'Temple 1': '42 70 -180',
-  'Temple 2': '-35 64 49',
-
-  'Village 2': '136 90 349',
-  'Village 3': '-165 88 227',
-  'Mansion': '-14016 63 -4882',
-  'Ocean ruins': '480 ~ -576',
-  'Ocean monument': '-303 57 -859',
-  'Stronghold': '182 27 -1440',
-  'Hidden treasure': '233 58 -408',
-  'Desert pyramid': '170 74 154',
-  'Jungle pyramid': '-4760 71 -4953'
+const option = (value, label = value) => {
+  const element = document.createElement('option')
+  element.value = value
+  element.appendChild(document.createTextNode(label))
+  return element
 }
 
-Object.keys(shortcuts).forEach(label => {
-  const button = document.createElement('button')
-  button.dataset.cmd = `teleport ${user} ${shortcuts[label]}`
-  button.appendChild(document.createTextNode(label))
-  document.getElementById('shortcuts').appendChild(button)
-  document.getElementById('shortcuts').appendChild(document.createTextNode('\n'))
+window.addEventListener('load', async () => {
+  user = await data('user.txt')
+  const shortcuts = await data('shortcuts.json')
+  shortcuts.forEach(shortcut => byId('shortcuts').appendChild(option(shortcut.xyz, shortcut.label)))
+  byId('shortcuts').addEventListener('change', function () {
+    const option = this.options[this.selectedIndex]
+    byId('xyz').value = option.value
+  })
+  const buildings = await data('buildings.json')
+  buildings.forEach(fileName => {
+    const script = document.createElement('script')
+    script.src = `data/buildings/${fileName}`
+    document.body.appendChild(script)
+  })
 })
+
+function builder (label, factory) {
+  builder.label = factory
+  byId('buildings').appendChild(option(label))
+}
