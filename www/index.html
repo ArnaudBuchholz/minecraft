@@ -2,23 +2,27 @@
   <head>
   </head>
   <body>
-    <button data-cmd="time set day">Day</button>
-    <button data-cmd="time set night">Night</button>
-
-    <button data-cmd="execute at @e[type=creeper] run summon minecraft:lightning_bolt">Punish creepers</button>
-
-    <button data-cmd="list">users</button>
-    <button data-cmd="execute at ${user} run teleport ${user} ~ ~ ~">position</button>
+    <button data-cmd="time set day">&#9728;&#65039;</button>
+    <button data-cmd="time set night">&#127761;</button>
+    <button data-cmd="list">&#128699;</button>
+    <br />
 
     <button data-cmd="execute at ${user} run setblock ~ ~ ~ minecraft:command_block">spawn command block</button>
+    <button data-cmd="execute at @e[type=creeper] run summon minecraft:lightning_bolt">Punish creepers</button>
 
     <hr />
-    <div id="shortcuts">
-    </div>
+    <input type="text" id="xyz" placeholder="Enter x y z position">
+    <button data-action="position">&#128204;</button>
+    <button data-action="teleport">&#128682;</button>
+    <br />
+    <select id="shortcuts"></select>
 
     <hr />
+    <select id="buildings"></select>
+    <button data-action="building">&#128679;</button>
+    <hr />
 
-    <button data-building="pillar">pillar</button>
+    <button>&#128506;&#65039;</button>
     <script src="index.js"></script>
   </body>
 </html>
