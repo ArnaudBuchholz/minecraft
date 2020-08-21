@@ -16,18 +16,31 @@ async function data (path) {
   return response.text()
 }
 
-async function rcon (cmd) {
-  const response = await fetch('/rcon', {
-    method: 'POST',
-    headers: {
-      'content-type': 'text/plain'
-    },
-    body: cmd
-  })
-  if (!response.ok) {
-    throw response.statusText
+const commands = []
+
+function rcon (cmd) {
+  async function send () {
+    const response = await fetch('/rcon', {
+      method: 'POST',
+      headers: {
+        'content-type': 'text/plain'
+      },
+      body: cmd
+    })
+    if (!response.ok) {
+      throw response.statusText
+    }
+    return response.text()
   }
-  return response.text()
+  let promise
+  if (commands.length) {
+    const lastCommand = commands[commands.length - 1]
+    promise = lastCommand.then(send)
+  } else {
+    promise = send()
+  }
+  commands.push(promise)
+  return promise
 }
 
 function xyz () {
@@ -39,6 +52,11 @@ function xyz () {
       z: parseInt(coords[2], 10)
     }
   }
+}
+
+function facing () {
+  const select = byId('facing')
+  return select.options[select.selectedIndex].value
 }
 
 function setBlock(x, y, z, type) {
@@ -61,8 +79,9 @@ const actions = {
 
   teleport: () => {
     const {x, y, z} = xyz()
+    const rotation = facing()
     if (x !== undefined) {
-      rcon(`teleport ${user} ${x} ${y} ${z}`)
+      rcon(`teleport ${user} ${x} ${y} ${z} ${rotation} 0`)
     }
   },
 
