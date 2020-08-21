@@ -4,6 +4,9 @@
   <body>
     <button data-cmd="time set day">&#9728;&#65039;</button>
     <button data-cmd="time set night">&#127761;</button>
+    <button data-cmd="effect give ${user} night_vision 300 0 true">&#128083;</button>
+    <button data-cmd="effect clear ${user} night_vision">&#128374;&#65039;</button>
+    
     <button data-cmd="list">&#128699;</button>
     <br />
 
@@ -12,6 +15,12 @@
 
     <hr />
     <input type="text" id="xyz" placeholder="Enter x y z position">
+    <select id="facing">
+      <option value="-180">North</option>
+      <option value="0">South</option>
+      <option value="90">West</option>
+      <option value="-90">East</option>
+    </select>
     <button data-action="position">&#128204;</button>
     <button data-action="teleport">&#128682;</button>
     <br />
