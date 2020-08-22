@@ -16,33 +16,6 @@ async function data (path) {
   return response.text()
 }
 
-const commands = []
-
-function rcon (cmd) {
-  async function send () {
-    const response = await fetch('/rcon', {
-      method: 'POST',
-      headers: {
-        'content-type': 'text/plain'
-      },
-      body: cmd
-    })
-    if (!response.ok) {
-      throw response.statusText
-    }
-    return response.text()
-  }
-  let promise
-  if (commands.length) {
-    const lastCommand = commands[commands.length - 1]
-    promise = lastCommand.then(send)
-  } else {
-    promise = send()
-  }
-  commands.push(promise)
-  return promise
-}
-
 function xyz () {
   const coords = byId('xyz').value.split(' ')
   if (coords.length) {
@@ -57,10 +30,6 @@ function xyz () {
 function facing () {
   const select = byId('facing')
   return select.options[select.selectedIndex].value
-}
-
-function setBlock(x, y, z, type) {
-  return rcon(`setblock ${x} ${y} ${z} minecraft:${type}`)
 }
 
 const actions = {
@@ -78,7 +47,7 @@ const actions = {
   },
 
   teleport: () => {
-    const {x, y, z} = xyz()
+    const { x, y, z } = xyz()
     const rotation = facing()
     if (x !== undefined) {
       rcon(`teleport ${user} ${x} ${y} ${z} ${rotation} 0`)
@@ -86,7 +55,9 @@ const actions = {
   },
 
   building: async () => {
-    const { x, y, z } = xyz()
+    const build = new Builder(xyz(), facing(), rcon)
+    const buildings = byId('buildings')
+    builder[buildings.options[buildings.selectedIndex].value](build)
   }
 }
 
@@ -125,6 +96,6 @@ window.addEventListener('load', async () => {
 })
 
 function builder (label, factory) {
-  builder.label = factory
+  builder[label] = factory
   byId('buildings').appendChild(option(label))
 }
