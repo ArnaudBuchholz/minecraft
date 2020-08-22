@@ -1,6 +1,6 @@
 'use strict'
 
-const { readdir } = require('fs')
+const { readdir } = require('fs')
 const readdirAsync = require('util').promisify(readdir)
 const { join } = require('path')
 
