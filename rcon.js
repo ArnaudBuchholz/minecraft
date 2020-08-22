@@ -15,7 +15,7 @@ module.exports = async (request, response) => {
   return rcon.connect()
     .then(() => rcon.send(cmd))
     .then(res => {
-        response.writeHead(200, {
+      response.writeHead(200, {
         'content-type': 'text/plain'
       })
       response.end(res)
@@ -23,7 +23,7 @@ module.exports = async (request, response) => {
     })
     .catch(reason => {
       response.writeHead(400, {
-          'content-type': 'text/plain'
+        'content-type': 'text/plain'
       })
       response.end(reason.toString())
     })
