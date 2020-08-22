@@ -4,7 +4,7 @@
   "description": "Minecraft scripts and experiments",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "standard --fix",
     "start": "reserve"
   },
   "repository": {
@@ -26,5 +26,16 @@
     "dotenv": "^8.2.0",
     "modern-rcon": "^1.0.3",
     "reserve": "^1.8.2"
+  },
+  "devDependencies": {
+    "standard": "^14.3.4"
+  },
+  "standard": {
+    "globals": [
+      "Builder",
+      "builder",
+      "fetch",
+      "rcon"
+    ]
   }
 }
