@@ -20,9 +20,9 @@ function xyz () {
   const coords = byId('xyz').value.split(' ')
   if (coords.length) {
     return {
-      x: parseInt(coords[0], 10),
-      y: parseInt(coords[1], 10),
-      z: parseInt(coords[2], 10)
+      x: coords[0],
+      y: coords[1],
+      z: coords[2]
     }
   }
 }
@@ -40,10 +40,7 @@ const actions = {
       return
     }
     const coords = /(-?\d+)\.\d+, (-?\d+)\.\d+, (-?\d+)\.\d+/.exec(output)
-    const x = parseInt(coords[1], 10)
-    const y = parseInt(coords[2], 10)
-    const z = parseInt(coords[3], 10)
-    byId('xyz').value = `${x} ${y} ${z}`
+    byId('xyz').value = `${coords[1]} ${coords[2]} ${coords[3]}`
   },
 
   teleport: () => {
@@ -55,7 +52,16 @@ const actions = {
   },
 
   building: async () => {
-    const build = new Builder(xyz(), facing(), rcon)
+    let { x, y, z } = xyz()
+    const current = 
+    x = parseInt(x, 10)
+    y = parseInt(y, 10)
+    z = parseInt(z, 10)
+    if (isNaN(x) || isNaN(y) || isNaN(z)) {
+      console.error('Check x y z', x, y, z)
+      return
+    }
+    const build = new Builder({ x, y, z }, facing(), rcon)
     const buildings = byId('buildings')
     builder[buildings.options[buildings.selectedIndex].value](build)
   }
