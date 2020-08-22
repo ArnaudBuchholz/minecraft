@@ -23,8 +23,11 @@
   "label": "Village 3",
   "xyz": "-165 88 227"
 }, {
-  "label": "Mansion",
+  "label": "Mansion (burnt)",
   "xyz": "-14016 63 -4882"
+}, {
+  "label": "Mansion 2",
+  "xyz": "-3678 66 -14605"
 }, {
   "label": "Ocean ruins",
   "xyz": "480 ~ -576"
