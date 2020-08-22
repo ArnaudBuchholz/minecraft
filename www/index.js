@@ -53,7 +53,6 @@ const actions = {
 
   building: async () => {
     let { x, y, z } = xyz()
-    const current = 
     x = parseInt(x, 10)
     y = parseInt(y, 10)
     z = parseInt(z, 10)
