@@ -16,9 +16,9 @@
     <hr />
     <input type="text" id="xyz" placeholder="Enter x y z position">
     <select id="facing">
-      <option value="N">North</option>
       <option value="S">South</option>
       <option value="W">West</option>
+      <option value="N">North</option>
       <option value="E">East</option>
     </select>
     <button data-action="position">&#128204;</button>
@@ -30,8 +30,20 @@
     <select id="buildings"></select>
     <button data-action="building">&#128679;</button>
     <hr />
+    <div style="position: relative; background-color: gray; width: 100px; height: 100px;">
+      <div id="compass-up" style="position: absolute; left: 45px;">S</div>
+      <div id="compass-left" style="position: absolute; top: 43px;">W</div>
+      <div id="compass-down" style="position: absolute; left: 45px; top: 85px;">N</div>
+      <div id="compass-right" style="position: absolute; left: 85px; top: 43px;">E</div>
+      <div style="position: absolute; top: 50px; width: 100px; height: 2px; border-top: 1px solid black;"></div>
+      <div style="position: absolute; left: 50px; width: 2px; height: 100px; border-left: 1px solid black;"></div>
 
-    <button>&#128506;&#65039;</button>
+      <div style="position: absolute; left: 25px; top: 50px; width: 25px; height: 2px; border-top: 3px solid purple;"></div>
+      <div id="compass-horizontal" style="position: absolute; left: 25px; top: 52px; color: purple;">+X</div>
+
+      <div style="position: absolute; left: 50px; top: 25px; width: 2px; height: 25px; border-left: 3px solid blue;"></div>
+      <div id="compass-vertical"style="position: absolute; left: 54px; top: 25px; color: blue;">+Z</div>
+    </div>
     <script src="rcon.js"></script>
     <script src="Builder.js"></script>
     <script src="index.js"></script>
