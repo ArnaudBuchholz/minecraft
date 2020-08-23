@@ -104,3 +104,23 @@ function builder (label, factory) {
   builder[label] = factory
   byId('buildings').appendChild(option(label))
 }
+
+function setCompass (edges, vertical, horizontal) {
+  const ids = ['up', 'left', 'down', 'right']
+  ids.forEach((id, index) => {
+    byId(`compass-${id}`).innerHTML = edges.charAt(index)
+  })
+  byId('compass-vertical').innerHTML = vertical
+  byId('compass-horizontal').innerHTML = horizontal
+}
+
+const compass = {
+  S: () => setCompass('SWNE', '+Z', '+X'),
+  W: () => setCompass('WNES', '+X', '-Z'),
+  N: () => setCompass('NESW', '-Z', '-X'),
+  E: () => setCompass('ESWN', '-X', '+Z')
+}
+
+byId('facing').addEventListener('change', () => {
+  compass[facing()]()
+})
