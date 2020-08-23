@@ -17,8 +17,11 @@ async function data (path) {
 }
 
 function xyz () {
-  const coords = byId('xyz').value.split(' ')
-  if (coords.length) {
+  const xyz = byId('xyz').value
+  if (xyz.length) {
+    byId('last-position').value = xyz
+    document.cookie = `last-position=${xyz}; `
+    const coords = xyz.split(' ')
     return {
       x: coords[0],
       y: coords[1],
@@ -26,6 +29,12 @@ function xyz () {
     }
   }
 }
+const lastSavedPosition = (document.cookie
+  .split('; ')
+  .find(row => row.startsWith('last-position')) || '=')
+  .split('=')[1]
+byId('last-position').value = lastSavedPosition
+byId('xyz').value = lastSavedPosition
 
 function facing () {
   const select = byId('facing')
