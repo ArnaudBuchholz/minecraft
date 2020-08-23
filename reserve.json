@@ -1,15 +1,15 @@
 {
     "port": 8080,
     "mappings": [{
-      "verb": "POST",
-      "match": "^/rcon$",
+      "method": "POST",
+      "match": "^/rcon",
       "custom": "./rcon.js"
     }, {
-      "verb": "GET",
+      "method": "GET",
       "match": "^/data/buildings\\.json",
       "custom": "./buildings.js"
     }, {
-      "verb": "GET",
+      "method": "GET",
       "match": "^/data/(.*)",
       "file": "./data/$1"
     }, {
