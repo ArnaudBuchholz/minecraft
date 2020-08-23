@@ -45,7 +45,7 @@ const actions = {
 
   teleport: () => {
     const { x, y, z } = xyz()
-    const rotation = facing()
+    const rotation = { N: -180, S: 0, W: 90, E: -90 }[facing()]
     if (x !== undefined) {
       rcon(`teleport ${user} ${x} ${y} ${z} ${rotation} 0`)
     }
