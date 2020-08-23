@@ -20,3 +20,32 @@ builder('pillar', build => {
     build.block(x, 3, z, lantern)
   })
 })
+
+builder('teleport temple', build => {
+  
+})
+
+builder('test', build => {
+  build.block(0, 0, 2, {
+    $type: 'purpur_stairs',
+    facing: {
+      S: 'south',
+      W: 'west',
+      N: 'north',
+      E: 'east'
+    }
+  })
+  build.block(1, 0, 2, {
+    $type: 'barrel',
+    facing: {
+      S: 'north',
+      W: 'east',
+      N: 'south',
+      E: 'west'
+    }
+  })
+  build.block(-1, 0, 2, {
+    $type: 'dark_oak_leaves',
+    persistent: true
+  })
+})
