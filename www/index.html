@@ -24,7 +24,9 @@
     <button data-action="position">&#128204;</button>
     <button data-action="teleport">&#128682;</button>
     <br />
-    <select id="shortcuts"></select>
+    <select id="shortcuts">
+      <option id="last" value="">(last)</option>
+    </select>
 
     <hr />
     <select id="buildings"></select>
@@ -37,10 +39,8 @@
       <div id="compass-right" style="position: absolute; left: 85px; top: 43px;">E</div>
       <div style="position: absolute; top: 50px; width: 100px; height: 2px; border-top: 1px solid black;"></div>
       <div style="position: absolute; left: 50px; width: 2px; height: 100px; border-left: 1px solid black;"></div>
-
       <div style="position: absolute; left: 25px; top: 50px; width: 25px; height: 2px; border-top: 3px solid purple;"></div>
       <div id="compass-horizontal" style="position: absolute; left: 25px; top: 52px; color: purple;">+X</div>
-
       <div style="position: absolute; left: 50px; top: 25px; width: 2px; height: 25px; border-left: 3px solid blue;"></div>
       <div id="compass-vertical"style="position: absolute; left: 54px; top: 25px; color: blue;">+Z</div>
     </div>
