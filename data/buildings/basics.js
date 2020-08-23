@@ -1,7 +1,13 @@
 const stone = 'chiseled_polished_blackstone'
 const support = 'polished_blackstone_brick_wall'
-const lantern = 'soul_lantern[hanging=true]'
-const fire = 'soul_campfire[lit=true]'
+const lantern = {
+  $type: 'soul_lantern',
+  hanging: true
+}
+const fire = {
+  $type: 'soul_campfire',
+  lit: true
+}
 
 builder('pillar', build => {
   for (let y = -1; y < 5; ++y) {
