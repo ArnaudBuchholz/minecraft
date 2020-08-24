@@ -4,6 +4,7 @@ const bricks = 'polished_blackstone_bricks'
 const support = 'polished_blackstone_brick_wall'
 const stairs = 'polished_blackstone_stairs'
 const lantern = { $type: 'soul_lantern', hanging: true }
+const walltorch = 'soul_wall_torch'
 const fire = { $type: 'soul_campfire', lit: true }
 
 const front = { S: 'south', W: 'west', N: 'north', E: 'east' }
@@ -37,6 +38,9 @@ builder('teleport temple', build => {
   build.fill(-2, 2, -1, -2, 3, 12, bricks)
   build.fill(2, 2, -1, 2, 3, 12, bricks)
   build.fill(-1, 2, 12, 1, 3, 12, bricks)
+
+  build.setblock(-2, 2, -2, { $type: walltorch, facing: back })
+  build.setblock(2, 2, -2, { $type: walltorch, facing: back })
 
   build.setblock(0, -1, 0, stone)
   build.setblock(-2, 0, -2, { $type: stairs, facing: front })
