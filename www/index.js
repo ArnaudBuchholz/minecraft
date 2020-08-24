@@ -69,9 +69,17 @@ const actions = {
       console.error('Check x y z', x, y, z)
       return
     }
-    const build = new Builder({ x, y, z }, facing(), rcon)
+    const build = new Builder({ x, y, z }, facing())
     const buildings = byId('buildings')
     builder[buildings.options[buildings.selectedIndex].value](build)
+    byId('area-to-erase').value = build.area
+  },
+
+  erase: () => {
+    const area = byId('area-to-erase').value
+    if (area) {
+      rcon(`fill ${area} air`)
+    }
   }
 }
 
