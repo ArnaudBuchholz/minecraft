@@ -10,10 +10,7 @@ async function data (path) {
   if (!response.ok) {
     throw response.statusText
   }
-  if (path.endsWith('.json')) {
-    return response.json()
-  }
-  return response.text()
+  return response.json()
 }
 
 function xyz () {
@@ -102,14 +99,14 @@ const option = (value, label = value) => {
 }
 
 window.addEventListener('load', async () => {
-  user = await data('user.txt')
+  user = await data('user.json')
   const shortcuts = await data('shortcuts.json')
   shortcuts.forEach(shortcut => byId('shortcuts').appendChild(option(shortcut.xyz, shortcut.label)))
   byId('shortcuts').addEventListener('change', function () {
     const option = this.options[this.selectedIndex]
     byId('xyz').value = option.value
   })
-  const buildings = await data('buildings.json')
+  const buildings = await data('buildings/.')
   buildings.forEach(fileName => {
     const script = document.createElement('script')
     script.src = `data/buildings/${fileName}`
