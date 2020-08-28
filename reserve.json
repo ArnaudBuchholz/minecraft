@@ -6,8 +6,8 @@
       "custom": "./rcon.js"
     }, {
       "method": "GET",
-      "match": "^/data/buildings\\.json",
-      "custom": "./buildings.js"
+      "match": "^/data/(.*)",
+      "custom": "./datadir.js"
     }, {
       "method": "GET",
       "match": "^/data/(.*)",
