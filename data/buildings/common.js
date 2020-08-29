@@ -13,6 +13,12 @@ const walltorch = 'soul_wall_torch'
 const fire = { $type: 'soul_campfire', lit: true }
 const command = 'command_block'
 const pressurePlate = 'polished_blackstone_pressure_plate'
+const shroomlight = 'shroomlight'
+const glowstone = 'glowstone'
+const redstone = {
+  lamp: 'redstone_lamp',
+  block: 'redstone_block'
+}
 
 const front = { S: 'south', W: 'west', N: 'north', E: 'east' }
 const left = { S: 'east', W: 'south', N: 'west', E: 'north' }
