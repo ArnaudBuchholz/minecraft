@@ -11,7 +11,7 @@
     <br />
 
     <button data-cmd="execute at ${user} run setblock ~ ~ ~ minecraft:command_block">spawn command block</button>
-    <button data-cmd="execute at @e[type=creeper] run summon minecraft:lightning_bolt">Punish creepers</button>
+    <button data-cmd="execute at ${user} run kill @e[distance=1..10]">Death wave</button>
 
     <hr />
     <input type="text" id="xyz" placeholder="Enter x y z position">
