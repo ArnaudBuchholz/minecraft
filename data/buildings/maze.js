@@ -22,11 +22,11 @@ Use <a href="https://keesiemeijer.github.io/maze-generator/#generate" target="bl
     const building = this.options[this.selectedIndex].value
     show(building === 'maze')
   })
-  
+
   show(false)
 
   const mazeSelector = byId('mazeSelector')
-  const mazePreview =  byId('mazePreview')
+  const mazePreview = byId('mazePreview')
 
   const mazeSelected = (function () {
     const fileName = this.options[this.selectedIndex].value
@@ -49,10 +49,12 @@ Use <a href="https://keesiemeijer.github.io/maze-generator/#generate" target="bl
     ctx.drawImage(mazePreview, 0, 0)
     const thickness = 10 // could be detected from image
     const mazeWidth = width / thickness
-    const mazeHeight = height / thickness
-    build.fill(0, -1, 0, 2 * mazeWidth - 1, -1, 2 * mazeHeight - 1, floor)
+    const mazeDepth = height / thickness
+    const mazeHeight = 4
+    const mazexoffset = 2 * Math.floor(mazeWidth / 2)
+    build.fill(-mazexoffset, -1, 0, 2 * mazeWidth - 1 - mazexoffset, -1, 2 * mazeDepth - 1, floor)
     for (let mazex = 0; mazex < mazeWidth; ++mazex) {
-      for (let mazez = 0; mazez < mazeHeight; ++mazez) {
+      for (let mazez = 0; mazez < mazeDepth; ++mazez) {
         const imageData = ctx.getImageData(mazex * thickness, mazez * thickness, 1, 1)
         let type
         if (imageData.data[0] === 0) {
@@ -60,15 +62,15 @@ Use <a href="https://keesiemeijer.github.io/maze-generator/#generate" target="bl
         } else {
           type = air
         }
-        build.fill(mazex * 2, 0, mazez * 2, mazex * 2 + 1, 2, mazez * 2 + 1, type)
+        const rx = mazex * 2 - mazexoffset
+        const rz = mazez * 2
+        build.fill(rx, 0, rz, rx + 1, mazeHeight - 1, rz + 1, type)
+        if (type === air) {
+          const offset = (mazex + mazez) % 2
+          build.setblock(rx + offset, mazeHeight - 1, rz + offset, { $type: 'lantern', hanging: true })
+        }
       }
     }
-    build.fill(0, 3, 0, 2 * mazeWidth - 1, 3, 2 * mazeHeight - 1, shroomlight)
-    build.fill(0, 3, 0, 2 * mazeWidth - 1, 3, 1, bricks)
-    build.fill(0, 3, 0, 1, 3, 2 * mazeHeight - 1, bricks)
-    build.fill(0, 3, 2 * mazeHeight - 2, 2 * mazeWidth - 1, 3, 2 * mazeHeight - 1, bricks)
-    build.fill(2 * mazeWidth - 2, 3, 0, 2 * mazeWidth - 1, 3, 2 * mazeHeight - 1, bricks)
+    build.fill(-mazexoffset, mazeHeight, 0, 2 * mazeWidth - 1 - mazexoffset, mazeHeight, 2 * mazeDepth - 1, bricks)
   })
-
 }())
-
