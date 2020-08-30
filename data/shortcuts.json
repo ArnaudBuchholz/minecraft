@@ -2,8 +2,11 @@
   "label": "Home",
   "xyz": "79 200 -56"
 }, {
-  "label": "Maxime",
+  "label": "Maxime's old house",
   "xyz": "-22 68 -210"
+}, {
+  "label": "Maxime's new house",
+  "xyz": "-568 64 -10"
 }, {
   "label": "Portal to Nether fortress",
   "xyz": "6267 71 -1489"
@@ -46,4 +49,7 @@
 }, {
   "label": "Jungle pyramid",
   "xyz": "-4760 71 -4953"
+}, {
+  "label": "Ice discoveries",
+  "xyz": "-1273 68 185"
 }]
