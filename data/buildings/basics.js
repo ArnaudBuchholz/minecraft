@@ -15,9 +15,9 @@ builder('teleport temple', build => {
   build.fill(-1, 0, -1, 1, 3, 11, air)
   build.fill(-1, -1, 8, 1, -2, 11, air)
   // floor
-  build.fill(-2, -1, -2, 2, -1, 7, floor)
-  build.fill(-2, -2, 7, 2, -2, 7, floor)
-  build.fill(-2, -3, 8, 2, -3, 12, floor)
+  build.fill(-2, -1, -2, 2, -1, 7, block)
+  build.fill(-2, -2, 7, 2, -2, 7, block)
+  build.fill(-2, -3, 8, 2, -3, 12, block)
   // right wall (below stone)
   build.fill(-2, 0, -1, -2, 0, 12, bricks)
   build.fill(-2, -1, 8, -2, -2, 12, bricks)
@@ -84,4 +84,12 @@ builder('test', build => {
     $type: 'dark_oak_leaves',
     persistent: true
   })
+  build.setblock(0, 1, 2, block)
+  build.setblock(0, 1, 1, vine.front)
+  build.setblock(0, 2, 2, block)
+  build.setblock(0, 2, 3, vine.back)
+  build.setblock(0, 3, 2, block)
+  build.setblock(1, 3, 2, vine.left)
+  build.setblock(0, 4, 2, block)
+  build.setblock(-1, 4, 2, vine.right)
 })
