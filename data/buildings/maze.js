@@ -52,13 +52,13 @@ Use <a href="https://keesiemeijer.github.io/maze-generator/#generate" target="bl
     const mazeDepth = height / thickness
     const mazeHeight = 4
     const mazexoffset = 2 * Math.floor(mazeWidth / 2)
-    build.fill(-mazexoffset, -1, 0, 2 * mazeWidth - 1 - mazexoffset, -1, 2 * mazeDepth - 1, floor)
+    build.fill(-mazexoffset, -1, 0, 2 * mazeWidth - 1 - mazexoffset, -1, 2 * mazeDepth - 1, block)
     for (let mazex = 0; mazex < mazeWidth; ++mazex) {
       for (let mazez = 0; mazez < mazeDepth; ++mazez) {
         const imageData = ctx.getImageData(mazex * thickness, mazez * thickness, 1, 1)
         let type
         if (imageData.data[0] === 0) {
-          type = bricks
+          type = block
         } else {
           type = air
         }
