@@ -1,7 +1,7 @@
 'use strict'
 
 const air = 'air'
-const floor = 'netherite_block'
+const block = 'netherite_block'
 const stone = 'chiseled_polished_blackstone'
 const bricks = 'polished_blackstone_bricks'
 const slab = 'polished_blackstone_slab'
@@ -18,6 +18,37 @@ const glowstone = 'glowstone'
 const redstone = {
   lamp: 'redstone_lamp',
   block: 'redstone_block'
+}
+
+const vine = {
+  front: {
+    $type: 'vine',
+    south: { S: true, W: false, N: false, E: false },
+    west: { S: false, W: true, N: false, E: false },
+    north: { S: false, W: false, N: true, E: false },
+    east: { S: false, W: false, N: false, E: true }
+  },
+  left: {
+    $type: 'vine',
+    south: { S: false, W: false, N: false, E: true },
+    west: { S: true, W: false, N: false, E: false },
+    north: { S: false, W: true, N: false, E: false },
+    east: { S: false, W: false, N: true, E: false }
+  },
+  right: {
+    $type: 'vine',
+    south: { S: false, W: true, N: false, E: false },
+    west: { S: false, W: false, N: true, E: false },
+    north: { S: false, W: false, N: false, E: true },
+    east: { S: true, W: false, N: false, E: false }
+  },
+  back: {
+    $type: 'vine',
+    south: { S: false, W: false, N: true, E: false },
+    west: { S: false, W: false, N: false, E: true },
+    north: { S: true, W: false, N: false, E: false },
+    east: { S: false, W: true, N: false, E: false }
+  },
 }
 
 const front = { S: 'south', W: 'west', N: 'north', E: 'east' }
