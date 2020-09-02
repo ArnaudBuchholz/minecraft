@@ -61,10 +61,10 @@ builder('teleport temple', build => {
   build.fill(-1, -1, 7, 1, -1, 7, { $type: stairs, facing: back })
   build.fill(-1, -2, 8, 1, -2, 8, { $type: stairs, facing: back })
   // teleporter
-  build.setblock(0, -3, 9, { $type: arrow, facing: back })
-  build.setblock(0, -3, 11, { $type: arrow, facing: front })
-  build.setblock(1, -3, 10, { $type: arrow, facing: left })
-  build.setblock(-1, -3, 10, { $type: arrow, facing: right })
+  build.setblock(0, -3, 9, { $type: terracota.magenta, facing: back })
+  build.setblock(0, -3, 11, { $type: terracota.magenta, facing: front })
+  build.setblock(1, -3, 10, { $type: terracota.magenta, facing: left })
+  build.setblock(-1, -3, 10, { $type: terracota.magenta, facing: right })
   build.setblock(0, -3, 10, command)
   build.setblock(0, -2, 10, pressurePlate)
   // Lighting
