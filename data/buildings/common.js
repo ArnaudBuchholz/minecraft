@@ -7,7 +7,6 @@ const bricks = 'polished_blackstone_bricks'
 const slab = 'polished_blackstone_slab'
 const support = 'polished_blackstone_brick_wall'
 const stairs = 'polished_blackstone_stairs'
-const arrow = 'magenta_glazed_terracotta'
 const lantern = { $type: 'soul_lantern', hanging: true }
 const walltorch = 'soul_wall_torch'
 const fire = { $type: 'soul_campfire', lit: true }
@@ -49,6 +48,14 @@ const vine = {
     north: { S: true, W: false, N: false, E: false },
     east: { S: false, W: true, N: false, E: false }
   },
+  weeping: 'weeping_vines',
+  twisting: 'twisting_vines'
+}
+
+const terracota = {
+  magenta: 'magenta_glazed_terracotta',
+  black: 'black_glazed_terracotta',
+  purple: 'purple_glazed_terracotta'
 }
 
 const front = { S: 'south', W: 'west', N: 'north', E: 'east' }
