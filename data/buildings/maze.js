@@ -68,9 +68,28 @@ Use <a href="https://keesiemeijer.github.io/maze-generator/#generate" target="bl
         if (type === air) {
           const offset = (mazex + mazez) % 2
           build.setblock(rx + offset, mazeHeight - 1, rz + offset, { $type: 'lantern', hanging: true })
+          const plant = (offset + 1) %2
+          if (mazez === 0) {
+            // exit
+            build.setblock(rx + 1, -1, 2 * mazeDepth - 1, { $type: terracota.purple, facing: front })
+            build.setblock(rx, -1, 2 * mazeDepth - 1, { $type: terracota.purple, facing: right })
+            build.setblock(rx + 1, -1, 2 * mazeDepth - 2, { $type: terracota.purple, facing: left })
+            build.setblock(rx, -1, 2 * mazeDepth - 2, { $type: terracota.purple, facing: back })
+          } else if (mazez === mazeDepth - 1) {
+            // entrance
+            build.setblock(rx + 1, -1, 1, { $type: terracota.black, facing: back })
+            build.setblock(rx, -1, 1, { $type: terracota.black, facing: left })
+            build.setblock(rx + 1, -1, 0, { $type: terracota.black, facing: right })
+            build.setblock(rx, -1, 0, { $type: terracota.black, facing: front })
+          } else if (Math.random() < 0.3) {
+            build.setblock(rx + plant, mazeHeight, rz + plant, block)
+            build.setblock(rx + plant, mazeHeight - 1, rz + plant, vine.weeping)
+          } else if (Math.random() < 0.3) {
+            build.setblock(rx + plant, 0, rz + plant, vine.twisting)
+          }
         }
       }
     }
-    build.fill(-mazexoffset, mazeHeight, 0, 2 * mazeWidth - 1 - mazexoffset, mazeHeight, 2 * mazeDepth - 1, bricks)
+    build.fill(-mazexoffset, mazeHeight, 0, 2 * mazeWidth - 1 - mazexoffset, mazeHeight, 2 * mazeDepth - 1, block)
   })
 }())
