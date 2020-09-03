@@ -53,9 +53,9 @@ Use <a href="https://keesiemeijer.github.io/maze-generator/#generate" target="bl
     const mazeHeight = 4
     const mazexoffset = 2 * Math.floor(mazeWidth / 2)
     build.fill(-mazexoffset, -1, 0, 2 * mazeWidth - 1 - mazexoffset, -1, 2 * mazeDepth - 1, block)
-    for (let mazex = 0; mazex < mazeWidth; ++mazex) {
-      for (let mazez = 0; mazez < mazeDepth; ++mazez) {
-        const imageData = ctx.getImageData(mazex * thickness, mazez * thickness, 1, 1)
+    for (let mazez = 0; mazez < mazeDepth; ++mazez) {
+      for (let mazex = 0; mazex < mazeWidth; ++mazex) {
+        const imageData = ctx.getImageData(width - (mazex + 1) * thickness, height - (mazez  + 1) * thickness, 1, 1)
         let type
         if (imageData.data[0] === 0) {
           type = block
@@ -69,13 +69,13 @@ Use <a href="https://keesiemeijer.github.io/maze-generator/#generate" target="bl
           const offset = (mazex + mazez) % 2
           build.setblock(rx + offset, mazeHeight - 1, rz + offset, { $type: 'lantern', hanging: true })
           const plant = (offset + 1) %2
-          if (mazez === 0) {
+          if (mazez === mazeDepth - 1) {
             // exit
             build.setblock(rx + 1, -1, 2 * mazeDepth - 1, { $type: terracota.purple, facing: front })
             build.setblock(rx, -1, 2 * mazeDepth - 1, { $type: terracota.purple, facing: right })
             build.setblock(rx + 1, -1, 2 * mazeDepth - 2, { $type: terracota.purple, facing: left })
             build.setblock(rx, -1, 2 * mazeDepth - 2, { $type: terracota.purple, facing: back })
-          } else if (mazez === mazeDepth - 1) {
+          } else if (mazez === 0) {
             // entrance
             build.setblock(rx + 1, -1, 1, { $type: terracota.black, facing: back })
             build.setblock(rx, -1, 1, { $type: terracota.black, facing: left })
