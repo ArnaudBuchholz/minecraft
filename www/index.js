@@ -1,6 +1,7 @@
 'use strict'
 
 let user
+const protectedAreas = []
 const byId = document.getElementById.bind(document)
 
 async function data (path) {
@@ -13,16 +14,24 @@ async function data (path) {
   return response.json()
 }
 
-function xyz () {
-  const xyz = byId('xyz').value
-  if (xyz.length) {
-    byId('last-position').value = xyz
-    document.cookie = `last-position=${xyz}; `
-    const coords = xyz.split(' ')
+function xyz ({ from = byId('xyz').value, asNumber = false, saveAsLast = true }) {
+  if (from.length) {
+    if (saveAsLast) {
+      byId('last-position').value = from
+      document.cookie = `last-position=${xyz}; expires=Fri, 31 Dec 9999 23:59:59 GMT`
+    }
+    const coords = from.split(' ')
+    function getCoord (index) {
+      const coord = coords[index]
+      if (asNumber) {
+        return parseInt(coord, 10)
+      }
+      return coord
+    }
     return {
-      x: coords[0],
-      y: coords[1],
-      z: coords[2]
+      x: getCoord(0),
+      y: getCoord(1),
+      z: getCoord(2)
     }
   }
 }
@@ -58,10 +67,7 @@ const actions = {
   },
 
   building: async () => {
-    let { x, y, z } = xyz()
-    x = parseInt(x, 10)
-    y = parseInt(y, 10)
-    z = parseInt(z, 10)
+    let { x, y, z } = xyz({ asNumber: true })
     if (isNaN(x) || isNaN(y) || isNaN(z)) {
       console.error('Check x y z', x, y, z)
       return
@@ -101,7 +107,16 @@ const option = (value, label = value) => {
 window.addEventListener('load', async () => {
   user = await data('user.json')
   const shortcuts = await data('shortcuts.json')
-  shortcuts.forEach(shortcut => byId('shortcuts').appendChild(option(shortcut.xyz, shortcut.label)))
+  shortcuts.forEach(shortcut => {
+    if (shortcut.protect) {
+      protectedAreas.push({
+        ...xyz({ from: shortcut.xyz, asNumber: true, saveAsLast: false }),
+        distance: shortcut.protect
+      })
+      shortcut.label = '\u26a0\ufe0f ' + shortcut.label
+    }
+    byId('shortcuts').appendChild(option(shortcut.xyz, shortcut.label))
+  })
   byId('shortcuts').addEventListener('change', function () {
     const option = this.options[this.selectedIndex]
     byId('xyz').value = option.value
@@ -139,7 +154,7 @@ byId('facing').addEventListener('change', () => {
   compass[facing()]()
 })
 
-const alphabet = '\u311A\u3105\u3118\u3109\u311C\u3108\u310D\u310F\u3127\u3110\u310E\u310C\u3107\u310B\u311B\u3106\u3111\u3116S\u310A\u3128\u3125\u3120\u3112\u312D\u3117'
+const alphabet = '\u311A\u3105\u3118\u3109\u311C\u3108\u310D\u310F\u3127\u3110\u310E\u310C\u3107\u310B\u311B\u3106\u3111\u3116\u3119\u310A\u3128\u3125\u3120\u3112\u312D\u3117'
 
 byId('message').addEventListener('change', function () {
   byId('encrypted').value = this.value.toUpperCase().split('').map(char => {
