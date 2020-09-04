@@ -3,10 +3,12 @@
   "xyz": "79 200 -56"
 }, {
   "label": "Maxime's old house",
-  "xyz": "-22 68 -210"
+  "xyz": "-22 68 -210",
+  "protect": 50
 }, {
   "label": "Maxime's new house",
-  "xyz": "-568 64 -10"
+  "xyz": "-568 64 -10",
+  "protect": 100
 }, {
   "label": "Portal to Nether fortress",
   "xyz": "6267 71 -1489"
