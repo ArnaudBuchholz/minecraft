@@ -7,18 +7,20 @@
     <button data-action="users">&#128699;</button>
     <br />
 
-    <button data-cmd="time set day">&#9728;&#65039;</button>
-    <button data-cmd="time set night">&#127761;</button>
     <button data-cmd="gamerule doDaylightCycle false">&#9203;&#9209;</button>
     <button data-cmd="gamerule doDaylightCycle true">&#9203;&#9654;</button>
     <br />
 
-    <button data-cmd="effect give ${user} night_vision 300 0 true">&#128083;</button>
-    <button data-cmd="effect clear ${user} night_vision">&#128374;&#65039;</button>
+    <button data-cmd="time set day">&#9728;&#65039;</button>
+    <button data-cmd="time set night">&#127761;</button>
     <br />
 
-    <button data-cmd="execute at ${user} run setblock ~ ~ ~ minecraft:command_block">spawn command block</button>
-    <button data-cmd="execute at ${user} run kill @e[distance=1..10]">Death wave</button>
+    <button data-cmd="effect give ${user()} night_vision 300 0 true">&#128083;</button>
+    <button data-cmd="effect clear ${user()} night_vision">&#128374;&#65039;</button>
+    <br />
+
+    <button data-cmd="execute at ${user()} run setblock ~ ~ ~ minecraft:command_block">spawn command block</button>
+    <button data-cmd="execute at ${user()} run kill @e[distance=1..10]">Death wave</button>
 
     <hr />
     <input type="text" id="xyz" placeholder="Enter x y z position">
@@ -40,21 +42,6 @@
     <br />
     <input type="text" id="area-to-erase" readonly>
     <button data-action="erase">&#8999;</button>
-    <hr />
-    <input type="text" id="message"> <input type="text" id="encrypted" readonly>
-    <hr />
-    <div style="position: relative; background-color: gray; width: 100px; height: 100px;">
-      <div id="compass-up" style="position: absolute; left: 45px;">S</div>
-      <div id="compass-left" style="position: absolute; top: 43px;">W</div>
-      <div id="compass-down" style="position: absolute; left: 45px; top: 85px;">N</div>
-      <div id="compass-right" style="position: absolute; left: 85px; top: 43px;">E</div>
-      <div style="position: absolute; top: 50px; width: 100px; height: 2px; border-top: 1px solid black;"></div>
-      <div style="position: absolute; left: 50px; width: 2px; height: 100px; border-left: 1px solid black;"></div>
-      <div style="position: absolute; left: 25px; top: 50px; width: 25px; height: 2px; border-top: 3px solid purple;"></div>
-      <div id="compass-horizontal" style="position: absolute; left: 25px; top: 52px; color: purple;">+X</div>
-      <div style="position: absolute; left: 50px; top: 25px; width: 2px; height: 25px; border-left: 3px solid blue;"></div>
-      <div id="compass-vertical"style="position: absolute; left: 54px; top: 25px; color: blue;">+Z</div>
-    </div>
     <hr />
     <pre>
       execute if entity @p[distance=..2] run teleport @p 
