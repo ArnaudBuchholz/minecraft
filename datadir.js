@@ -19,6 +19,6 @@ module.exports = async (request, response, subdir) => {
     }
   } catch (e) {
     // ignored
-    return
+
   }
 }

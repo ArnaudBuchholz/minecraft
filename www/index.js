@@ -1,61 +1,51 @@
 'use strict'
 
-let user
-const protectedAreas = []
-const byId = document.getElementById.bind(document)
+import { byId } from './tools.js'
+import data from './data.js'
+import Builder from './Builder.js'
+import xyzHelper from './xyz.js'
+import rcon from './rcon.js'
 
-async function data (path) {
-  const response = await fetch(`/data/${path}`, {
-    method: 'GET'
-  })
-  if (!response.ok) {
-    throw response.statusText
+const xyz = xyzHelper(() => byId('xyz').value, (value, isProtected) => {
+  const input = byId('xyz')
+  input.value = value
+  if (isProtected) {
+    input.classList.add('protected')
+  } else {
+    input.classList.remove('protected')
   }
-  return response.json()
-}
-
-function xyz ({ from = byId('xyz').value, asNumber = false, saveAsLast = true }) {
-  if (from.length) {
-    if (saveAsLast) {
-      byId('last-position').value = from
-      document.cookie = `last-position=${xyz}; expires=Fri, 31 Dec 9999 23:59:59 GMT`
-    }
-    const coords = from.split(' ')
-    function getCoord (index) {
-      const coord = coords[index]
-      if (asNumber) {
-        return parseInt(coord, 10)
-      }
-      return coord
-    }
-    return {
-      x: getCoord(0),
-      y: getCoord(1),
-      z: getCoord(2)
-    }
-  }
-}
-const lastSavedPosition = (document.cookie
-  .split('; ')
-  .find(row => row.startsWith('last-position')) || '=')
-  .split('=')[1]
-byId('last-position').value = lastSavedPosition
-byId('xyz').value = lastSavedPosition
+})
 
 function facing () {
   const select = byId('facing')
   return select.options[select.selectedIndex].value
 }
 
+const option = (value, label = value) => {
+  const element = document.createElement('option')
+  element.value = value
+  element.appendChild(document.createTextNode(label))
+  return element
+}
+
 const actions = {
+  users: async () => {
+    const output = await rcon(`list`)
+    const users = byId('users')
+    users.innerHTML = ''
+    output.split('online:')[1].replace(/\w+/ig, name => {
+      users.appendChild(option(name, name))
+    })
+  },
+
   position: async () => {
     const output = await rcon(`execute at ${user} run teleport ${user} ~ ~ ~`)
     if (!output) {
-      byId('xyz').value = ''
+      xyz.set()
       return
     }
     const coords = /(-?\d+)\.\d+, (-?\d+)\.\d+, (-?\d+)\.\d+/.exec(output)
-    byId('xyz').value = `${coords[1]} ${coords[2]} ${coords[3]}`
+    xyz.set(`${coords[1]} ${coords[2]} ${coords[3]}`)
   },
 
   teleport: () => {
@@ -67,9 +57,17 @@ const actions = {
   },
 
   building: async () => {
-    let { x, y, z } = xyz({ asNumber: true })
+    const { x, y, z } = xyz().toNumbers()
     if (isNaN(x) || isNaN(y) || isNaN(z)) {
       console.error('Check x y z', x, y, z)
+      return
+    }
+    // Check protected areas
+    const area = isProtectedArea(x, y, z)
+    if (area) {
+      const distance = area.distance / 8
+      rcon(`particle barrier ${area.x} ${area.y} ${area.z} ${distance} ${distance} ${distance} 0 1000`)
+      alert('Protected area')
       return
     }
     const build = new Builder({ x, y, z }, facing())
@@ -97,36 +95,28 @@ document.addEventListener('click', event => {
   }
 })
 
-const option = (value, label = value) => {
-  const element = document.createElement('option')
-  element.value = value
-  element.appendChild(document.createTextNode(label))
-  return element
-}
-
 window.addEventListener('load', async () => {
-  user = await data('user.json')
   const shortcuts = await data('shortcuts.json')
   shortcuts.forEach(shortcut => {
     if (shortcut.protect) {
-      protectedAreas.push({
-        ...xyz({ from: shortcut.xyz, asNumber: true, saveAsLast: false }),
-        distance: shortcut.protect
-      })
+      xyz.addProtectedArea(shortcut.xyz, shortcut.protect)
       shortcut.label = '\u26a0\ufe0f ' + shortcut.label
     }
     byId('shortcuts').appendChild(option(shortcut.xyz, shortcut.label))
   })
   byId('shortcuts').addEventListener('change', function () {
     const option = this.options[this.selectedIndex]
-    byId('xyz').value = option.value
+    xyz.set(option.value)
   })
   const buildings = await data('buildings/.')
-  buildings.forEach(fileName => {
-    const script = document.createElement('script')
-    script.src = `data/buildings/${fileName}`
-    document.body.appendChild(script)
-  })
+  buildings
+    .filter(fileName => fileName.endsWith('.js'))
+    .forEach(fileName => {
+      const script = document.createElement('script')
+      script.src = `data/buildings/${fileName}`
+      script.type = 'module'
+      document.body.appendChild(script)
+    })
 })
 
 function builder (label, factory) {

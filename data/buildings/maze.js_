@@ -1,5 +1,6 @@
-(function () {
-  'use strict'
+'use strict'
+
+import builder from '../../www/builders.js'
 
   const mazeArea = document.body.appendChild(document.createElement('div'))
   mazeArea.innerHTML = `<hr />
@@ -28,10 +29,10 @@ Use <a href="https://keesiemeijer.github.io/maze-generator/#generate" target="bl
   const mazeSelector = byId('mazeSelector')
   const mazePreview = byId('mazePreview')
 
-  const mazeSelected = (function () {
+  const mazeSelected = function () {
     const fileName = this.options[this.selectedIndex].value
     mazePreview.setAttribute('src', `/data/mazes/${fileName}`)
-  }).bind(mazeSelector)
+  }.bind(mazeSelector)
 
   mazeSelector.addEventListener('change', mazeSelected)
 
@@ -55,7 +56,7 @@ Use <a href="https://keesiemeijer.github.io/maze-generator/#generate" target="bl
     build.fill(-mazexoffset, -1, 0, 2 * mazeWidth - 1 - mazexoffset, -1, 2 * mazeDepth - 1, block)
     for (let mazez = 0; mazez < mazeDepth; ++mazez) {
       for (let mazex = 0; mazex < mazeWidth; ++mazex) {
-        const imageData = ctx.getImageData(width - (mazex + 1) * thickness, height - (mazez  + 1) * thickness, 1, 1)
+        const imageData = ctx.getImageData(width - (mazex + 1) * thickness, height - (mazez + 1) * thickness, 1, 1)
         let type
         if (imageData.data[0] === 0) {
           type = block
@@ -68,7 +69,7 @@ Use <a href="https://keesiemeijer.github.io/maze-generator/#generate" target="bl
         if (type === air) {
           const offset = (mazex + mazez) % 2
           build.setblock(rx + offset, mazeHeight - 1, rz + offset, { $type: 'lantern', hanging: true })
-          const plant = (offset + 1) %2
+          const plant = (offset + 1) % 2
           if (mazez === mazeDepth - 1) {
             // exit
             build.setblock(rx + 1, -1, 2 * mazeDepth - 1, { $type: terracota.purple, facing: front })

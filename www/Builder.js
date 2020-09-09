@@ -1,5 +1,7 @@
 'use strict'
 
+import rcon from './rcon.js'
+
 const rotate = {
   S: (rx, rz) => { return { x: rx, z: rz } },
   W: (rx, rz) => { return { x: -rz, z: rx } },
@@ -14,7 +16,7 @@ const minmax = (value1, value2) => {
   return { min: value2, max: value1 }
 }
 
-class Builder { // eslint-disable-line no-unused-vars
+export default class Builder { // eslint-disable-line no-unused-vars
   pos (rx, ry, rz) {
     const { x: tx, z: tz } = rotate[this._facing](rx, rz)
     const x = this._x + tx

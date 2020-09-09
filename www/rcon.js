@@ -1,6 +1,6 @@
 'use strict'
 
-function rcon (cmd) {
+export default function rcon (cmd) {
   let promise
   const { queue, execute, done } = rcon
   const { length } = queue
