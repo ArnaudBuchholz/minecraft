@@ -32,19 +32,20 @@ const actions = {
       xyz.set()
       return
     }
-    const coords = /(-?\d+)\.\d+, (-?\d+)\.\d+, (-?\d+)\.\d+/.exec(output)
-    xyz.set(`${coords[1]} ${coords[2]} ${coords[3]}`)
+    xyz.setCentered(output)
   },
 
   teleport: () => {
     const { x, y, z } = xyz()
+    const cx = Math.floor(10 * x + 5) / 10
+    const cz = Math.floor(10 * z + 5) / 10
     const rotation = { N: -180, S: 0, W: 90, E: -90 }[facing()]
     if (x !== undefined) {
-      rcon(`teleport ${user()} ${x} ${y} ${z} ${rotation} 0`)
+      rcon(`teleport ${user()} ${cx} ${y} ${cz} ${rotation} 0`)
     }
   },
 
-  building: async () => {
+  build: async () => {
     const { x, y, z } = xyz().toNumbers()
     if (isNaN(x) || isNaN(y) || isNaN(z)) {
       console.error('Check x y z', x, y, z)
@@ -96,6 +97,10 @@ window.addEventListener('load', async () => {
   })
   byId('shortcuts').addEventListener('change', function () {
     xyz.set(option(this).value)
+  })
+  document.body.addEventListener('builder', event => {
+    const select = byId('builders')
+    select.appendChild(option(event.detail.label))
   })
   const buildings = await data('buildings/.')
   buildings
