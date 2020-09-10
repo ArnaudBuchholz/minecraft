@@ -3,12 +3,20 @@
 export default function factory (read, write) {
   const int = value => parseInt(value, 10)
 
-  function parse (value) {
+  function parse (value, centered = false) {
     if (value.length) {
-      const [tx, ty, tz] = value.split(' ')
-      const x = int(tx)
+      const [, tx, ty, tz] = /(-?\d+)(?:\.\d+)?,?\s+(-?\d+)(?:\.\d+)?,?\s+(-?\d+)(?:\.\d+)?/.exec(value)
+      let x = int(tx)
       const y = int(ty)
-      const z = int(tz)
+      let z = int(tz)
+      if (centered) {
+        if (x < 0) {
+          --x
+        }
+        if (z < 0) {
+          --z
+        }
+      }
       const isValid = !(isNaN(x) || isNaN(y) || isNaN(z))
       const isProtected = isValid && xyz.isProtected(x, y, z)
       return { x, y, z, isValid, isProtected }
@@ -27,6 +35,11 @@ export default function factory (read, write) {
   
   xyz.set = function (value = '') {
     const {x, y, z, isValid, isProtected} = parse(value)
+    write(`${x} ${y} ${z}`, isProtected)
+  }
+
+  xyz.setCentered = function (value = '') {
+    const {x, y, z, isValid, isProtected} = parse(value, true)
     write(`${x} ${y} ${z}`, isProtected)
   }
   
