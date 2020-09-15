@@ -1,7 +1,7 @@
 'use strict'
 
 import { declare } from '../../builders.js'
-import { byId } from '../../tools.js'
+import { byId, option } from '../../tools.js'
 
 declare('\ud83e\udded Compass', () => {})
 
@@ -30,14 +30,16 @@ function setCompass (edges, vertical, horizontal) {
   byId('compass-vertical').innerHTML = vertical
   byId('compass-horizontal').innerHTML = horizontal
 }
-  
+
 const compass = {
   S: () => setCompass('SWNE', '+Z', '+X'),
   W: () => setCompass('WNES', '+X', '-Z'),
   N: () => setCompass('NESW', '-Z', '-X'),
   E: () => setCompass('ESWN', '-X', '+Z')
 }
-  
-byId('facing').addEventListener('change', () => {
-  compass[facing()]()
+
+document.addEventListener('change', event => {
+  if (event.target.id === 'facing') {
+    compass[option(event.target).value]()
+  }
 })
