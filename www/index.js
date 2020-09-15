@@ -21,7 +21,7 @@ const xyz = xyzHelper(() => byId('xyz').value, (value, isProtected) => {
 
 const actions = {
   users: async () => {
-    const output = await rcon(`list`)
+    const output = await rcon('list')
     const users = byId('users')
     users.innerHTML = ''
     output.split('online:')[1].replace(/\w+/ig, name => users.appendChild(option(name)))
@@ -115,5 +115,5 @@ window.addEventListener('load', async () => {
       script.type = 'module'
       document.body.appendChild(script)
     })
-    actions.users()
+  actions.users()
 })
