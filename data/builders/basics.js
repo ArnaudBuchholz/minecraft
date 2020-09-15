@@ -5,7 +5,7 @@ import { types, facing } from './constants.js'
 
 declare('pillar', build => {
   build.fill(0, -1, 0, 0, 4, 0, types.stone)
-  build.setblock(0, 5, 0, fire)
+  build.setblock(0, 5, 0, types.soul.campfire)
   const lanterns = [{ x: +1, z: 0 }, { x: -1, z: 0 }, { x: 0, z: +1 }, { x: 0, z: -1 }]
   lanterns.forEach(({ x, z }) => {
     build.setblock(x, 4, z, types.support)
