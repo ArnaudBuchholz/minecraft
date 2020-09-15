@@ -74,11 +74,10 @@ export const types = {
     },
     weeping: 'weeping_vines',
     twisting: 'twisting_vines'
-  },  
+  },
   terracota: {
-    magenta: { $type: 'magenta_glazed_terracotta' },
-    black: { $type: 'black_glazed_terracotta' },
-    purple: { $type: 'purple_glazed_terracotta' }
+    magenta: { $type: 'magenta_glazed_terracotta' },
+    black: { $type: 'black_glazed_terracotta' },
+    purple: { $type: 'purple_glazed_terracotta' }
   }
 }
-
