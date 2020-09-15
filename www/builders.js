@@ -5,7 +5,7 @@ const builders = []
 export function declare (label, factory) {
   const id = builders.length
   builders.push(factory)
-  document.body.dispatchEvent(new CustomEvent("declare-builder", {
+  document.body.dispatchEvent(new CustomEvent('declare-builder', {
     detail: {
       id,
       label
