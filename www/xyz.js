@@ -26,25 +26,29 @@ export default function factory (read, write) {
 
   function xyz (value = read()) {
     const result = parse(value)
-    const {x, y, z, isValid} = result
+    const { x, y, z, isValid } = result
     if (isValid) {
       document.cookie = `last-xyz=${x} ${y} ${z}; expires=Fri, 31 Dec 9999 23:59:59 GMT`
     }
     return result
   }
-  
+
   xyz.set = function (value = '') {
-    const {x, y, z, isValid, isProtected} = parse(value)
-    write(`${x} ${y} ${z}`, isProtected)
+    const { x, y, z, isValid, isProtected } = parse(value)
+    if (isValid) {
+      write(`${x} ${y} ${z}`, isProtected)
+    }
   }
 
   xyz.setCentered = function (value = '') {
-    const {x, y, z, isValid, isProtected} = parse(value, true)
-    write(`${x} ${y} ${z}`, isProtected)
+    const { x, y, z, isValid, isProtected } = parse(value, true)
+    if (isValid) {
+      write(`${x} ${y} ${z}`, isProtected)
+    }
   }
-  
+
   const protectedAreas = []
-  
+
   xyz.isProtected = (x, y, z) => {
     return protectedAreas.filter(area => {
       const distance = xyz.distance(x, y, z, area.x, area.y, area.z)
@@ -53,9 +57,9 @@ export default function factory (read, write) {
   }
 
   xyz.addProtectedArea = (value, distance) => {
-    const {x, y, z, isValid} = parse(value)
+    const { x, y, z, isValid } = parse(value)
     if (isValid) {
-      protectedAreas.push({x, y, z, distance})
+      protectedAreas.push({ x, y, z, distance })
     }
   }
 
