@@ -5,6 +5,7 @@ import data from './data.js'
 import Builder from './Builder.js'
 import xyzHelper from './xyz.js'
 import rcon from './rcon.js'
+import { execute } from './builders.js'
 
 const facing = () => option(byId('facing')).value
 const user = () => option(byId('users')).value
@@ -12,9 +13,9 @@ const xyz = xyzHelper(() => byId('xyz').value, (value, isProtected) => {
   const input = byId('xyz')
   input.value = value
   if (isProtected) {
-    input.classList.add('protected')
+    document.body.classList.add('protected')
   } else {
-    input.classList.remove('protected')
+    document.body.classList.remove('protected')
   }
 })
 
@@ -46,24 +47,19 @@ const actions = {
   },
 
   build: async () => {
-    const { x, y, z } = xyz().toNumbers()
-    if (isNaN(x) || isNaN(y) || isNaN(z)) {
+    const { x, y, z, isValid, isProtected } = xyz()
+    if (!isValid) {
       console.error('Check x y z', x, y, z)
       return
     }
     // Check protected areas
-    const area = isProtectedArea(x, y, z)
-    if (area) {
-      const distance = area.distance / 8
-      rcon(`particle barrier ${area.x} ${area.y} ${area.z} ${distance} ${distance} ${distance} 0 1000`)
+    if (isProtected) {
+      rcon(`particle barrier ${x} ${y} ${z} 1 1 1 0 1000`)
       alert('Protected area')
       return
     }
     const build = new Builder({ x, y, z }, facing())
-/*
-    const buildings = byId('buildings')
-    builder[option(buildings).value](build)
-*/
+    execute(option(byId('builders')).value, build)
     byId('area-to-erase').value = build.area
   },
 
@@ -98,24 +94,26 @@ window.addEventListener('load', async () => {
   byId('shortcuts').addEventListener('change', function () {
     xyz.set(option(this).value)
   })
-  document.body.addEventListener('builder', event => {
+  document.body.addEventListener('declare-builder', event => {
+    const { id, label } = event.detail
     const select = byId('builders')
-    select.appendChild(option(event.detail.label))
+    const labels = [].map.call(select.options, element => element.label).concat(label).sort()
+    const index = labels.sort().indexOf(label)
+    const newChild = option(id, label)
+    if (index === labels.length - 1) {
+      select.appendChild(newChild)
+    } else {
+      select.insertBefore(newChild, select.options[index])
+    }
   })
-  const buildings = await data('buildings/.')
+  const buildings = await data('builders/.')
   buildings
     .filter(fileName => fileName.endsWith('.js'))
     .forEach(fileName => {
       const script = document.createElement('script')
-      script.src = `data/buildings/${fileName}`
+      script.src = `data/builders/${fileName}`
       script.type = 'module'
       document.body.appendChild(script)
     })
+    actions.users()
 })
-
-/*
-function builder (label, factory) {
-  builder[label] = factory
-  byId('buildings').appendChild(option(label))
-}
-*/
