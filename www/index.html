@@ -1,5 +1,6 @@
 <html>
   <head>
+    <link rel="stylesheet" href="index.css">
   </head>
   <body>
     <select id="users">
@@ -23,7 +24,7 @@
     <button data-cmd="execute at ${user()} run kill @e[distance=1..10]">Death wave</button>
 
     <hr />
-    <input type="text" id="xyz" placeholder="Enter x y z position">
+    <input type="text" id="xyz" class="danger" placeholder="Enter x y z position">
     <select id="facing">
       <option value="S">South</option>
       <option value="W">West</option>
@@ -38,7 +39,7 @@
 
     <hr />
     <select id="builders"></select>
-    <button data-action="build">&#128679;</button>
+    <button data-action="build" class="danger">&#128679;</button>
     <br />
     <input type="text" id="area-to-erase" readonly>
     <button data-action="erase">&#8999;</button>
