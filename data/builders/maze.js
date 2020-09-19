@@ -1,6 +1,9 @@
 'use strict'
 
-import builder from '../../www/builders.js'
+import { declare } from '../../builders.js'
+import { types, facing } from './constants.js'
+
+
 
   const mazeArea = document.body.appendChild(document.createElement('div'))
   mazeArea.innerHTML = `<hr />
@@ -41,7 +44,7 @@ Use <a href="https://keesiemeijer.github.io/maze-generator/#generate" target="bl
     mazeSelected()
   })
 
-  builder('maze', build => {
+  declare('\ud83e\uddf1 Maze', build => {
     const { height, width } = mazePreview
     const canvas = document.createElement('canvas')
     canvas.width = width
