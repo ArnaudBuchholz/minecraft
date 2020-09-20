@@ -37,8 +37,12 @@ export const types = {
 
   command: 'command_block',
 
-  shroomlight: 'shroomlight',
-  glowstone: 'glowstone',
+  light: {
+    shroom: 'shroomlight',
+    glowstone: 'glowstone',
+    hangingLantern: { $type: 'lantern', hanging: true }
+  },
+
   redstone: {
     lamp: 'redstone_lamp',
     block: 'redstone_block'
