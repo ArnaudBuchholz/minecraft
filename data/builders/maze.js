@@ -61,7 +61,7 @@ const myId = declare('\ud83e\uddf1 Maze', build => {
 const mazeArea = document.body.appendChild(document.createElement('div'))
 mazeArea.setAttribute('style', 'display: none')
 mazeArea.innerHTML = `<hr />
-Use <a href="https://keesiemeijer.github.io/maze-generator/#generate" target="blank" rel="noreferrer noopener">https://keesiemeijer.github.io/maze-generator/</a>
+Use <a href="https://keesiemeijer.github.io/maze-generator/#generate" target="blank" rel="noreferrer noopener">https://keesiemeijer.github.io/maze-generator/</a><br />
 <select id="mazeSelector"></select><br /><br />
 <img id="mazePreview">
 <div id="mazeCanvas"></div>`
