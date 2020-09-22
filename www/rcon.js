@@ -21,6 +21,7 @@ rcon.done = () => {
 }
 
 rcon.execute = async cmd => {
+  console.log('RCON >>', cmd)
   const response = await fetch('/rcon', {
     method: 'POST',
     headers: {
@@ -31,5 +32,7 @@ rcon.execute = async cmd => {
   if (!response.ok) {
     throw response.statusText
   }
-  return response.text()
+  const text = await response.text()
+  console.log('RCON <<', text)
+  return text
 }
