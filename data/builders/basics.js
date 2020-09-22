@@ -3,7 +3,7 @@
 import { declare } from '../../builders.js'
 import { types, facing } from './constants.js'
 
-declare('pillar', build => {
+declare('\ud83e\ude94 Pillar', build => {
   build.fill(0, -1, 0, 0, 4, 0, types.stone)
   build.setblock(0, 5, 0, types.soul.campfire)
   const lanterns = [{ x: +1, z: 0 }, { x: -1, z: 0 }, { x: 0, z: +1 }, { x: 0, z: -1 }]
@@ -13,7 +13,7 @@ declare('pillar', build => {
   })
 })
 
-declare('teleport temple', build => {
+declare('\ud83e\uddf3 Teleport temple', build => {
   // cavity (ensure no blocking blocks)
   build.fill(-1, 0, -1, 1, 3, 11, types.air)
   build.fill(-1, -1, 8, 1, -2, 11, types.air)
@@ -80,7 +80,7 @@ declare('teleport temple', build => {
   build.setblock(1, -1, 10, types.soul.hangingLantern)
 })
 
-declare('test', build => {
+declare('\ud83e\uddea Test', build => {
   build.setblock(0, 0, 2, { $type: 'purpur_stairs', ...facing.front })
   build.setblock(1, 0, 2, { $type: 'barrel', ...facing.back })
   build.setblock(-1, 0, 2, { $type: 'dark_oak_leaves', persistent: true })
