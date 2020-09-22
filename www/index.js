@@ -77,7 +77,7 @@ document.addEventListener('click', event => {
     if (target.dataset.action) {
       actions[target.dataset.action]()
     } else if (target.dataset.cmd) {
-      rcon(target.dataset.cmd.replace(/\$\{user\(\)\}/g, user())).then(console.log)
+      rcon(target.dataset.cmd.replace(/\$\{user\(\)\}/g, user()))
     }
   }
 })
