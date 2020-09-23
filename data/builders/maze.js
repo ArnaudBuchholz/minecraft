@@ -36,16 +36,35 @@ const myId = declare('\ud83e\uddf1 Maze', build => {
         const plant = (offset + 1) % 2
         if (mazez === mazeDepth - 1) {
           // exit
-          build.setblock(rx + 1, -1, 2 * mazeDepth - 1, { ...types.terracota.purple, ...facing.front })
-          build.setblock(rx, -1, 2 * mazeDepth - 1, { ...types.terracota.purple, ...facing.right })
-          build.setblock(rx + 1, -1, 2 * mazeDepth - 2, { ...types.terracota.purple, ...facing.left })
-          build.setblock(rx, -1, 2 * mazeDepth - 2, { ...types.terracota.purple, ...facing.back })
+          build.setblock(rx + 1, -1, rz + 1, { ...types.terracota.purple, ...facing.front })
+          build.setblock(rx, -1, rz + 1, { ...types.terracota.purple, ...facing.right })
+          build.setblock(rx + 1, -1, rz, { ...types.terracota.purple, ...facing.left })
+          build.setblock(rx, -1, rz, { ...types.terracota.purple, ...facing.back })
+
+          build.setblock(rx + 1, 0, rz + 2, { ...types.terracota.purple, ...facing.front })
+          build.setblock(rx, 0, rz + 2, { ...types.terracota.purple, ...facing.right })
+          build.setblock(rx + 1, 1, rz + 2, { ...types.terracota.purple, ...facing.left })
+          build.setblock(rx, 1, rz + 2, { ...types.terracota.purple, ...facing.back })
+          build.setblock(rx + 1, 2, rz + 2, { ...types.terracota.purple, ...facing.front })
+          build.setblock(rx, 2, rz + 2, { ...types.terracota.purple, ...facing.right })
+          build.setblock(rx + 1, 3, rz + 2, { ...types.terracota.purple, ...facing.left })
+          build.setblock(rx, 3, rz + 2, { ...types.terracota.purple, ...facing.back })
+
         } else if (mazez === 0) {
           // entrance
           build.setblock(rx + 1, -1, 1, { ...types.terracota.black, ...facing.back })
           build.setblock(rx, -1, 1, { ...types.terracota.black, ...facing.left })
           build.setblock(rx + 1, -1, 0, { ...types.terracota.black, ...facing.right })
           build.setblock(rx, -1, 0, { ...types.terracota.black, ...facing.front })
+
+          build.setblock(rx + 1, 0, -1, { ...types.terracota.black, ...facing.right })
+          build.setblock(rx, 0, -1, { ...types.terracota.black, ...facing.front })
+          build.setblock(rx + 1, 1, -1, { ...types.terracota.black, ...facing.back })
+          build.setblock(rx, 1, -1, { ...types.terracota.black, ...facing.left })
+          build.setblock(rx + 1, 2, -1, { ...types.terracota.black, ...facing.right })
+          build.setblock(rx, 2, -1, { ...types.terracota.black, ...facing.front })
+          build.setblock(rx + 1, 3, -1, { ...types.terracota.black, ...facing.back })
+          build.setblock(rx, 3, -1, { ...types.terracota.black, ...facing.left })
         } else if (Math.random() < 0.3) {
           build.setblock(rx + plant, mazeHeight, rz + plant, types.block)
           build.setblock(rx + plant, mazeHeight - 1, rz + plant, types.vine.weeping)
