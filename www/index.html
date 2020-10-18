@@ -48,6 +48,8 @@
       execute if entity @p[x=82,y=200,z=5,distance=..2] run particle witch 82 200 5
       particle soul ~ ~ ~ 10 0 10 1 1000
       execute if entity @p[x=100.5,y=201,z=-58.5,distance=..1] run teleport @p 93 200 -60 0 0
+      execute if block ~ ~ ~ minecraft:water // Test passed or Test failed
+      execute unless block ~ ~ ~ minecraft:air
     </pre>
     <script src="index.js" type="module"></script>
   </body>
